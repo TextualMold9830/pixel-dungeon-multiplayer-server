@@ -21,9 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.audio.Sample;
+import com.nikita22007.multiplayer.noosa.Camera;
+import com.nikita22007.multiplayer.noosa.audio.Sample;
 import com.watabou.pixeldungeon.Assets;
 import com.watabou.pixeldungeon.Badges;
 import com.watabou.pixeldungeon.Bones;
@@ -58,7 +57,7 @@ import com.watabou.pixeldungeon.actors.buffs.Weakness;
 import com.watabou.pixeldungeon.actors.mobs.Mob;
 import com.watabou.pixeldungeon.actors.mobs.npcs.NPC;
 import com.watabou.pixeldungeon.effects.CheckedCell;
-import com.watabou.pixeldungeon.effects.Flare;
+import com.nikita22007.multiplayer.server.effects.Flare;
 import com.watabou.pixeldungeon.effects.Speck;
 import com.watabou.pixeldungeon.items.Amulet;
 import com.watabou.pixeldungeon.items.Ankh;
@@ -101,7 +100,6 @@ import com.watabou.pixeldungeon.plants.Earthroot;
 import com.watabou.pixeldungeon.scenes.CellSelector;
 import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.pixeldungeon.scenes.InterLevelSceneServer;
-import com.watabou.pixeldungeon.scenes.SurfaceScene;
 import com.watabou.pixeldungeon.sprites.CharSprite;
 import com.watabou.pixeldungeon.sprites.HeroSprite;
 import com.watabou.pixeldungeon.ui.AttackIndicator;
@@ -686,7 +684,7 @@ public class Hero extends Char {
 				switch (heap.type) {
 				case TOMB:
 					Sample.INSTANCE.play( Assets.SND_TOMB );
-					Camera.main.shake( 1, 0.5f );
+					Camera.shake( 1, 0.5f );
 					break;
 				case SKELETON:
 					break;
@@ -796,8 +794,6 @@ public class Hero extends Char {
 					ready();
 				} else {
 					Dungeon.win( ResultDescriptions.WIN );
-					Dungeon.deleteGame(this.heroClass, true );
-					Game.switchScene( SurfaceScene.class );
 				}
 				
 			} else {
@@ -963,7 +959,7 @@ public class Hero extends Char {
 	private boolean getCloser( final int target ) {
 		
 		if (rooted) {
-			Camera.main.shake( 1, 1f );
+			Camera.shake( 1, 1f );
 			return false;
 		}
 		
@@ -1405,10 +1401,10 @@ public class Hero extends Char {
 		for (int y = ay; y <= by; y++) {
 			for (int x = ax, p = ax + y * Level.WIDTH; x <= bx; x++, p++) {
 				
-				if (Dungeon.visible[p]) {
+				if (Dungeon.visible[p]) { // at this moment Dungeon.visible stores current hero visible
 					
 					if (intentional) {
-						getSprite().parent.addToBack( new CheckedCell( p ) );
+						CheckedCell.SendCheckedCell(p, this);
 					}
 					
 					if (Level.secret[p] && (intentional || Random.Float() < level)) {
