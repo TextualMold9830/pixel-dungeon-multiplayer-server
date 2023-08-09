@@ -21,6 +21,7 @@
 
 package com.watabou.noosa;
 
+<<<<<<< HEAD:PD-classes/src/main/java/com/watabou/noosa/Game.java
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -47,8 +48,14 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
+=======
+import com.watabou.utils.SystemTime;
 
-public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTouchListener {
+import java.lang.reflect.InvocationTargetException;
+>>>>>>> e84029c (More changes):src/com/watabou/noosa/Game.java
+
+public class Game //extends Activity implements GLSurfaceView.Renderer, View.OnTouchListener
+{
 	
 	public static Game instance;  //game inherits context, then we  can use "instance" as a Context
 
@@ -78,18 +85,9 @@ public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTou
 	// Milliseconds passed since previous update
 	protected long step;
 	
-	public static float timeScale = 1f;
-	public static float elapsed = 0f;
-	public static float timeTotal = 0f;
-	
-	protected GLSurfaceView view;
-	protected SurfaceHolder holder;
-	
-	// Accumulated touch events
-	protected final ArrayList<MotionEvent> motionEvents = new ArrayList<MotionEvent>();
-	
-	// Accumulated key events
-	protected final ArrayList<KeyEvent> keysEvents = new ArrayList<KeyEvent>();
+	public static float timeScale = 1f; //visual-only
+	public static float elapsed = 0f; //visual-only
+	public static float timeTotal = 0f; //visual-only
 	
 	public Game( Class<? extends Scene> c ) {
 		super();
@@ -248,11 +246,11 @@ public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTou
 		
 		//instance = null;
 	}
-	
-	public static void resetScene() {
-		switchScene( instance.sceneClass );
-	}
-	
+	// to be removed
+//	public static void resetScene() {
+//		switchScene( instance.sceneClass );
+//	}
+
 	public static void switchScene(Class<? extends Scene> c) {
 		switchScene(c, null);
 	}
@@ -305,28 +303,15 @@ public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTou
 		Game.timeScale = 1f;
 		Game.timeTotal = 0f;
 	}
-	
+
 	protected void update() {
 		Game.elapsed = Game.timeScale * step * 0.001f;
 		Game.timeTotal += Game.elapsed;
-		
-		synchronized (motionEvents) {
-			Touchscreen.processTouchEvents( motionEvents );
-			motionEvents.clear();
-		}
-		synchronized (keysEvents) {
-			Keys.processTouchEvents( keysEvents );
-			keysEvents.clear();
-		}
-		
+
 		scene.update();
 		Camera.updateAll();
 	}
-	
-	public static void vibrate( int milliseconds ) {
-		((Vibrator)instance.getSystemService( VIBRATOR_SERVICE )).vibrate( milliseconds );
-	}
-	
+
 	public interface SceneChangeCallback{
 		void beforeCreate();
 		void afterCreate();
