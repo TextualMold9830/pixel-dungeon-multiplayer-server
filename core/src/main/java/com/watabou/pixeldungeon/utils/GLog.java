@@ -19,9 +19,8 @@ package com.watabou.pixeldungeon.utils;
 
 import com.watabou.pixeldungeon.network.SendData;
 import com.watabou.pixeldungeon.sprites.CharSprite;
-import com.watabou.utils.Signal;
 
-import android.util.Log;
+import com.nikita22007.multiplayer.server.desktop.Log;
 
 import java.util.regex.Pattern;
 

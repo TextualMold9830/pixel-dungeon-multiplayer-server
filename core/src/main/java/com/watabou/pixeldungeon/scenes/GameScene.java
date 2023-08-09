@@ -44,7 +44,6 @@ import com.watabou.pixeldungeon.network.Server;
 import com.watabou.pixeldungeon.plants.Plant;
 import com.watabou.pixeldungeon.sprites.CharSprite;
 import com.watabou.pixeldungeon.sprites.HeroSprite;
-import com.watabou.pixeldungeon.ui.StatusPane;
 import com.watabou.pixeldungeon.ui.Window;
 import com.watabou.pixeldungeon.windows.WndBag;
 
@@ -135,11 +134,6 @@ public class GameScene extends PixelScene {     //only client, exclude static
 			hero.updateArmor();
 			mobs.add( hero );
 		}
-
-		StatusPane sb = new StatusPane();
-		sb.camera = uiCamera;
-		sb.setSize( uiCamera.width, 0 );
-		add( sb );
 		
 		ArrayList<Item> dropped = Dungeon.droppedItems.get( Dungeon.depth );
 		if (dropped != null) {
@@ -165,8 +159,8 @@ public class GameScene extends PixelScene {     //only client, exclude static
 		
 		super.destroy();
 	}
-	
-	@Override
+
+
 	public synchronized void pause() {
 		try {
 			Dungeon.saveAll();
