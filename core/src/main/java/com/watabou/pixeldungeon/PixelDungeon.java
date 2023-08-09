@@ -274,17 +274,8 @@ public class PixelDungeon extends Game {
 		}
 	}
 	
-	public static boolean immersed() {
-		return Preferences.INSTANCE.getBoolean( Preferences.KEY_IMMERSIVE, false );
-	}
-	
-	// *****************************
-	
-	public static void scaleUp( boolean value ) {
-		Preferences.INSTANCE.put( Preferences.KEY_SCALE_UP, value );
-		switchScene( TitleScene.class );
-	}
-	
+
+
 	public static boolean scaleUp() {
 		return Preferences.INSTANCE.getBoolean( Preferences.KEY_SCALE_UP, true );
 	}
