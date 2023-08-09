@@ -244,7 +244,7 @@ public abstract class Item implements Bundlable {
 			
 			setQuantity(getQuantity() - 1);
 			
-			try { 
+			try {
 				Item detached = getClass().newInstance();
 				detached.onDetach( container);
 				return detached;
