@@ -1,13 +1,9 @@
 package com.watabou.pixeldungeon.network;
 // based on https://developer.android.com/training/connect-devices-wirelessly/nsd.html#java
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.net.nsd.NsdManager;
-import android.net.nsd.NsdServiceInfo;
+
 
 import com.watabou.noosa.Game;
-import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.Settings;
 import com.watabou.pixeldungeon.actors.hero.Hero;

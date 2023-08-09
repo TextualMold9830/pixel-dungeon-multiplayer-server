@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon;
 
-import android.annotation.SuppressLint;
 
 import com.watabou.noosa.Game;
 import com.watabou.pixeldungeon.actors.Actor;
