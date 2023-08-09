@@ -1,8 +1,10 @@
 package com.watabou.pixeldungeon.network;
 // based on https://developer.android.com/training/connect-devices-wirelessly/nsd.html#java
 
+import android.net.nsd.NsdManager;
+import android.net.nsd.NsdServiceInfo;
 
-
+import com.nikita22007.multiplayer.server.desktop.Log;
 import com.watabou.noosa.Game;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.Settings;
@@ -200,8 +202,8 @@ public class Server extends Thread {
         serviceInfo.setServiceName(serviceName);
         serviceInfo.setServiceType(SERVICETYPE);
         serviceInfo.setPort(port);
-        nsdManager = (NsdManager) Game.instance.getSystemService(Context.NSD_SERVICE);
-
+        //nsdManager = (NsdManager) Game.instance.getSystemService(Context.NSD_SERVICE);
+        nsdManager = new NsdManager();
         nsdManager.registerService(
                 serviceInfo, NsdManager.PROTOCOL_DNS_SD, registrationListener);
     }
