@@ -21,37 +21,12 @@
 
 package com.watabou.noosa;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
-import com.watabou.glscripts.Script;
-import com.watabou.gltextures.TextureCache;
-import com.watabou.input.Keys;
-import com.watabou.input.Touchscreen;
-import com.watabou.noosa.audio.Music;
-import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.BitmapCache;
 import com.watabou.utils.SystemTime;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.media.AudioManager;
-import android.opengl.GLES20;
-import android.opengl.GLSurfaceView;
-import android.os.Bundle;
-import android.os.Vibrator;
-import android.util.DisplayMetrics;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.View;
+import java.lang.reflect.InvocationTargetException;
 
-public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTouchListener {
+public class Game //extends Activity implements GLSurfaceView.Renderer, View.OnTouchListener
+{
 	
 	public static Game instance;  //game inherits context, then we  can use "instance" as a Context
 
@@ -81,18 +56,9 @@ public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTou
 	// Milliseconds passed since previous update
 	protected long step;
 	
-	public static float timeScale = 1f;
-	public static float elapsed = 0f;
-	public static float timeTotal = 0f;
-	
-	protected GLSurfaceView view;
-	protected SurfaceHolder holder;
-	
-	// Accumulated touch events
-	protected final ArrayList<MotionEvent> motionEvents = new ArrayList<MotionEvent>();
-	
-	// Accumulated key events
-	protected final ArrayList<KeyEvent> keysEvents = new ArrayList<KeyEvent>();
+	public static float timeScale = 1f; //visual-only
+	public static float elapsed = 0f; //visual-only
+	public static float timeTotal = 0f; //visual-only
 	
 	public Game( Class<? extends Scene> c ) {
 		super();
@@ -261,11 +227,11 @@ public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTou
 		
 		//instance = null;
 	}
-	
-	public static void resetScene() {
-		switchScene( instance.sceneClass );
-	}
-	
+	// to be removed
+//	public static void resetScene() {
+//		switchScene( instance.sceneClass );
+//	}
+
 	public static void switchScene(Class<? extends Scene> c) {
 		switchScene(c, null);
 	}
@@ -318,28 +284,15 @@ public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTou
 		Game.timeScale = 1f;
 		Game.timeTotal = 0f;
 	}
-	
+
 	protected void update() {
 		Game.elapsed = Game.timeScale * step * 0.001f;
 		Game.timeTotal += Game.elapsed;
-		
-		synchronized (motionEvents) {
-			Touchscreen.processTouchEvents( motionEvents );
-			motionEvents.clear();
-		}
-		synchronized (keysEvents) {
-			Keys.processTouchEvents( keysEvents );
-			keysEvents.clear();
-		}
-		
+
 		scene.update();
 		Camera.updateAll();
 	}
-	
-	public static void vibrate( int milliseconds ) {
-		((Vibrator)instance.getSystemService( VIBRATOR_SERVICE )).vibrate( milliseconds );
-	}
-	
+
 	public interface SceneChangeCallback{
 		void beforeCreate();
 		void afterCreate();

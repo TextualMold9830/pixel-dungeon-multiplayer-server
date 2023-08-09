@@ -22,6 +22,7 @@ import android.content.DialogInterface;
 import android.text.Editable;
 import android.widget.EditText;
 
+
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.ui.Button;
