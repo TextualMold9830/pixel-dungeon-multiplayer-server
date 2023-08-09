@@ -173,16 +173,8 @@ public class Server extends Thread {
     public void run() {
         if (PixelDungeon.onlineMode()) {
             relay = new RelayThread(() -> {
-                PixelDungeon.instance.runOnUiThread(() -> { //only UI thread can create dialogs
-                    new AlertDialog.Builder(PixelDungeon.instance)
-                            .setTitle("Error")
-                            .setMessage("Relay disconnected or failed to connect.")
-                            // A null listener allows the button to dismiss the dialog and take no further action.
-                            .setNegativeButton(android.R.string.cancel, null)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                Log.e("Relay","Relay disconnected or failed to connect.");
                 });
-            });
             relay.start();
         }
         while (started) { //clients  listener
