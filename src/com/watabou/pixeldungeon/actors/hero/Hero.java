@@ -58,7 +58,7 @@ import com.watabou.pixeldungeon.actors.buffs.Weakness;
 import com.watabou.pixeldungeon.actors.mobs.Mob;
 import com.watabou.pixeldungeon.actors.mobs.npcs.NPC;
 import com.watabou.pixeldungeon.effects.CheckedCell;
-import com.watabou.pixeldungeon.effects.Flare;
+import com.nikita22007.multiplayer.server.effects.Flare;
 import com.watabou.pixeldungeon.effects.Speck;
 import com.watabou.pixeldungeon.items.Amulet;
 import com.watabou.pixeldungeon.items.Ankh;
@@ -795,8 +795,6 @@ public class Hero extends Char {
 					ready();
 				} else {
 					Dungeon.win( ResultDescriptions.WIN );
-					Dungeon.deleteGame(this.heroClass, true );
-					Game.switchScene( SurfaceScene.class );
 				}
 				
 			} else {

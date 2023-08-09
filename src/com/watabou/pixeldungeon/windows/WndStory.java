@@ -17,22 +17,9 @@
  */
 package com.watabou.pixeldungeon.windows;
 
-import com.watabou.noosa.BitmapTextMultiline;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.TouchArea;
-import com.watabou.pixeldungeon.Chrome;
-import com.watabou.pixeldungeon.scenes.PixelScene;
-import com.watabou.pixeldungeon.ui.Window;
 import com.watabou.utils.SparseArray;
 
-public class WndStory extends Window {
-
-	private static final int WIDTH = 120;
-	private static final int MARGIN = 6;
-	
-	private static final float bgR	= 0.77f;
-	private static final float bgG	= 0.73f;
-	private static final float bgB	= 0.62f;
+public final class WndStory  {
 	
 	public static final int ID_SEWERS		= 0;
 	public static final int ID_PRISON		= 1;
@@ -74,57 +61,6 @@ public class WndStory extends Window {
 		"dwarves were too weakened to clear them of remaining demons. Gradually demons have tightened their grip on this place " +
 		"and now it's called Demon Halls.\n\n" +
 		"Very few adventurers have ever descended this far..." );
-	};
-	
-	private BitmapTextMultiline tf;
-	
-	private float delay;
-	
-	public WndStory( String text ) {
-		super( 0, 0, Chrome.get( Chrome.Type.SCROLL ) );
-		
-		tf = PixelScene.createMultiline( text, 7 );
-		tf.maxWidth = WIDTH - MARGIN * 2;
-		tf.measure();
-		tf.ra = bgR;
-		tf.ga = bgG;
-		tf.ba = bgB;
-		tf.rm = -bgR;
-		tf.gm = -bgG;
-		tf.bm = -bgB;
-		tf.x = MARGIN;
-		add( tf );
-		
-		add( new TouchArea( chrome ) {
-			@Override
-			protected void onClick( Touch touch ) {
-				hide();
-			}
-		} );
-		
-		resize( (int)(tf.width() + MARGIN * 2), (int)Math.min( tf.height(), 180 ) );
 	}
-	
-	@Override
-	public void update() {
-		super.update();
-		
-		if (delay > 0 && (delay -= Game.elapsed) <= 0) {
-			shadow.visible = chrome.visible = tf.visible = true;
-		}
-	}
-	
-	public static void showChapter( int id ) {
 
-		String text = CHAPTERS.get( id );
-		if (text != null) {
-			WndStory wnd = new WndStory( text );
-			if ((wnd.delay = 0.6f) > 0) {
-				wnd.shadow.visible = wnd.chrome.visible = wnd.tf.visible = false;
-			}
-			
-			Game.scene().add( wnd );
-
-		}
-	}
 }

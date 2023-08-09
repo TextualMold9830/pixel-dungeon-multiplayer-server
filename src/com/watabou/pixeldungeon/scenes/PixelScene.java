@@ -17,9 +17,6 @@
  */
 package com.watabou.pixeldungeon.scenes;
 
-import javax.microedition.khronos.opengles.GL10;
-
-import android.opengl.GLES20;
 
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.BitmapText.Font;
@@ -136,7 +133,6 @@ public class PixelScene extends Scene {
 	@Override
 	public void destroy() {
 		super.destroy();
-		Touchscreen.event.removeAll();
 	}
 	
 	public static BitmapText.Font font;
@@ -303,9 +299,7 @@ public class PixelScene extends Scene {
 		@Override
 		public void draw() {
 			if (light) {
-				GLES20.glBlendFunc( GL10.GL_SRC_ALPHA, GL10.GL_ONE );
 				super.draw();
-				GLES20.glBlendFunc( GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA );
 			} else {
 				super.draw();
 			}

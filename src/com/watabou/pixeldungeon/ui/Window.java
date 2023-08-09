@@ -17,32 +17,26 @@
  */
 package com.watabou.pixeldungeon.ui;
 
-
-import android.util.Log;
-
+import com.nikita22007.multiplayer.server.desktop.Log;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.NinePatch;
-import com.watabou.noosa.TouchArea;
 import com.watabou.pixeldungeon.Chrome;
 import com.watabou.pixeldungeon.Settings;
 import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.effects.ShadowBox;
 import com.watabou.pixeldungeon.scenes.PixelScene;
-import com.watabou.utils.Signal;
-
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class Window extends Group implements Signal.Listener<Key> {
+public class Window extends Group {
 
 	protected int width;
 	protected int height;
 
-	protected TouchArea blocker;
 	protected ShadowBox shadow;
 	protected NinePatch chrome;
 
@@ -91,21 +85,7 @@ public class Window extends Group implements Signal.Listener<Key> {
 			
 	public Window( int width, int height, NinePatch chrome ) {
 		super();
-		
-		blocker = new TouchArea( 0, 0, PixelScene.uiCamera.width, PixelScene.uiCamera.height ) {
-			@Override
-			protected void onClick( Touch touch ) {
-				if (!Window.this.chrome.overlapsScreenPoint( 
-					(int)touch.current.x, 
-					(int)touch.current.y )) {
-					
-					onBackPressed();
-				}
-			}
-		};
-		blocker.camera = PixelScene.uiCamera;
-		add( blocker );
-		
+
 		this.chrome = chrome;
 		
 		this.width = width;
@@ -137,8 +117,7 @@ public class Window extends Group implements Signal.Listener<Key> {
 			camera.x / camera.zoom, 
 			camera.y / camera.zoom, 
 			chrome.width(), chrome.height );
-		
-		Keys.event.add( this );
+
 	}
 
 	public static void OnButtonPressed(Hero hero, int ID, int button, @Nullable JSONObject res) {
@@ -182,7 +161,6 @@ public class Window extends Group implements Signal.Listener<Key> {
 		super.destroy();
 		
 		Camera.remove( camera );
-		Keys.event.remove( this );
 
 		if (getOwnerHero() != null) {
 			Window removed = windows.get(ownerHero).remove(id);
@@ -192,22 +170,6 @@ public class Window extends Group implements Signal.Listener<Key> {
 		}
 	}
 
-	@Override
-	public void onSignal( Key key ) {
-		if (key.pressed) {
-			switch (key.code) {
-			case Keys.BACK:
-				onBackPressed();			
-				break;
-			case Keys.MENU:
-				onMenuPressed();			
-				break;
-			}
-		}
-		
-		Keys.event.cancel();
-	}
-	
 	public void onBackPressed() {
 		hide();
 	}

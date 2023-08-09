@@ -267,7 +267,7 @@ public class StartScene extends PixelScene {			//client  Scene
 			return;
 		}
 		InterLevelSceneServer.descend(null);
-		Game.switchScene( IntroScene.class );
+		Game.switchScene( GameScene.class );
 
 	}
 
