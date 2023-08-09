@@ -21,7 +21,6 @@
 
 package com.watabou.noosa;
 
-<<<<<<< HEAD:PD-classes/src/main/java/com/watabou/noosa/Game.java
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -48,11 +47,9 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
-=======
 import com.watabou.utils.SystemTime;
 
 import java.lang.reflect.InvocationTargetException;
->>>>>>> e84029c (More changes):src/com/watabou/noosa/Game.java
 
 public class Game //extends Activity implements GLSurfaceView.Renderer, View.OnTouchListener
 {
