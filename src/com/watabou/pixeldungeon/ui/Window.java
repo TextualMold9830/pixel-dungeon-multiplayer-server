@@ -20,9 +20,6 @@ package com.watabou.pixeldungeon.ui;
 
 import android.util.Log;
 
-import com.watabou.input.Keys;
-import com.watabou.input.Keys.Key;
-import com.watabou.input.Touchscreen.Touch;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;

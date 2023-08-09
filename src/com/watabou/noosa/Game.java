@@ -65,158 +65,19 @@ public class Game //extends Activity implements GLSurfaceView.Renderer, View.OnT
 		sceneClass = c;
 	}
 	
-	@Override
-	protected void onCreate( Bundle savedInstanceState ) {
-		super.onCreate( savedInstanceState );
-		
-		BitmapCache.context = TextureCache.context = instance = this;
-		
-		DisplayMetrics m = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics( m );
-		density = m.density;
-		
-		try {
-			version = getPackageManager().getPackageInfo( getPackageName(), 0 ).versionName;
-		} catch (NameNotFoundException e) {
-			version = "???";
-		}
-		try {
-			versionCode = getPackageManager().getPackageInfo( getPackageName(), 0 ).versionCode;
-		} catch (NameNotFoundException e) {
-			versionCode = 0;
-		}
-		
-		setVolumeControlStream( AudioManager.STREAM_MUSIC );
-		
-		view = new GLSurfaceView( this );
-		view.setEGLContextClientVersion( 2 );
-		view.setEGLConfigChooser( 5, 6, 5, 0, 0, 0 );
-		view.setRenderer( this );
-		view.setOnTouchListener( this );
-		setContentView( view );
-	}
+
+
 	
-	@Override
-	public void onResume() {
-		super.onResume();
-		
-		now = 0;
-		view.onResume();
-		
-		Music.INSTANCE.resume();
-		Sample.INSTANCE.resume();
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-		
-		if (scene != null) {
-			scene.pause();
-		}
-		
-		view.onPause();
-		Script.reset();
-		
-		Music.INSTANCE.pause();
-		Sample.INSTANCE.pause();
-	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		destroyGame();
-		
-		Music.INSTANCE.mute();
-		Sample.INSTANCE.reset();
-	}
-	
-	@SuppressLint({ "Recycle", "ClickableViewAccessibility" })
-	@Override
-	public boolean onTouch( View view, MotionEvent event ) {
-		synchronized (motionEvents) {
-			motionEvents.add( MotionEvent.obtain( event ) );
-		}
-		return true;
-	}
-	
-	@Override
-	public boolean onKeyDown( int keyCode, KeyEvent event ) {
-		
-		if (keyCode != Keys.BACK &&
-				keyCode != Keys.MENU) {
-			return false;
-		}
-		
-		synchronized (motionEvents) {
-			keysEvents.add( event );
-		}
-		return true;
-	}
-	
-	@Override
-	public boolean onKeyUp( int keyCode, KeyEvent event ) {
-		
-		if (keyCode != Keys.BACK &&
-				keyCode != Keys.MENU) {
-			return false;
-		}
-		
-		synchronized (motionEvents) {
-			keysEvents.add( event );
-		}
-		return true;
-	}
 
 	public void server_step(){
 		SystemTime.tick();
+
+
 		long rightNow = SystemTime.now;
 		step = (now == 0 ? 0 : rightNow - now);
 		now = rightNow;
 
 		step();
-	}
-
-	@Override
-	public void onDrawFrame( GL10 gl ) {
-		
-		if (width == 0 || height == 0) {
-			return;
-		}
-
-		server_step();
-
-		NoosaScript.get().resetCamera();
-		GLES20.glScissor( 0, 0, width, height );
-		GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT );
-		draw();
-	}
-	
-	@Override
-	public void onSurfaceChanged( GL10 gl, int width, int height ) {
-		
-		GLES20.glViewport(0, 0, width, height);
-		
-		if (height != Game.height || width != Game.width) {
-			
-			Game.width = width;
-			Game.height = height;
-			
-			resetScene();
-		}
-	}
-	
-	@Override
-	public void onSurfaceCreated( GL10 gl, EGLConfig config ) {
-		GLES20.glEnable( GL10.GL_BLEND );
-		// For premultiplied alpha:
-		// GLES20.glBlendFunc( GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA );
-		GLES20.glBlendFunc( GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA );
-		
-		GLES20.glEnable( GL10.GL_SCISSOR_TEST );
-		
-		TextureCache.reload();
-		RenderedText.reloadCache();
 	}
 	
 	protected void destroyGame() {

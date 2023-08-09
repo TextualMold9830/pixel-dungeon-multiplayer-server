@@ -21,11 +21,8 @@
 
 package com.watabou.noosa;
 
-import com.watabou.input.Keys;
-import com.watabou.utils.Signal;
-
 public class Scene extends Group {
-	
+
 	private Signal.Listener<Keys.Key> keyListener;
 	
 	public void create() {
