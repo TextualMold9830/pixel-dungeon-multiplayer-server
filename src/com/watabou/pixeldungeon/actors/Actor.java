@@ -31,6 +31,7 @@ import com.watabou.utils.Bundle;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import static com.watabou.pixeldungeon.network.SendData.sendActorRemoving;
@@ -118,7 +119,7 @@ public abstract class Actor implements Bundlable {
 	private static final HashSet<Actor> all = new HashSet<Actor>();
 	private volatile static Actor current;
 	
-	private static SparseArray<Actor> ids = new SparseArray<Actor>();
+	private static HashMap<Integer, Actor> ids = new HashMap<>();
 	
 	private static float now = 0;
 	
