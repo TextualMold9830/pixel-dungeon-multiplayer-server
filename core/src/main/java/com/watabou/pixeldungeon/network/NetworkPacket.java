@@ -808,7 +808,7 @@ public class NetworkPacket {
 
     public void packAndAddPlants(Level level) {
         for (int pos = 0; pos < level.LENGTH; pos++) {
-            packAndAddPlant(pos, level.plants.get(pos, null));
+            packAndAddPlant(pos, level.plants.containsKey(pos)?level.plants.get(pos): null);
         }
     }
 

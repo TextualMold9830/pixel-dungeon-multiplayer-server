@@ -17,8 +17,6 @@
  */
 package com.watabou.pixeldungeon.scenes;
 
-import java.util.HashMap;
-
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
@@ -27,17 +25,17 @@ import com.nikita22007.multiplayer.noosa.audio.Sample;
 import com.watabou.noosa.particles.BitmaskEmitter;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.ui.Button;
-import com.watabou.pixeldungeon.Assets;
-import com.watabou.pixeldungeon.Badges;
-import com.watabou.pixeldungeon.Dungeon;
-import com.watabou.pixeldungeon.GamesInProgress;
-import com.watabou.pixeldungeon.network.Server;
-import com.watabou.pixeldungeon.PixelDungeon;
+import com.watabou.pixeldungeon.*;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
 import com.watabou.pixeldungeon.effects.BannerSprites;
-import com.watabou.pixeldungeon.effects.Speck;
 import com.watabou.pixeldungeon.effects.BannerSprites.Type;
+<<<<<<< HEAD:core/src/main/java/com/watabou/pixeldungeon/scenes/StartScene.java
 import com.watabou.pixeldungeon.ui.ExitButton;
+=======
+import com.watabou.pixeldungeon.effects.Speck;
+import com.watabou.pixeldungeon.network.Server;
+import com.watabou.pixeldungeon.ui.Archs;
+>>>>>>> 3dc7765 (Changes by Nikita):src/com/watabou/pixeldungeon/scenes/StartScene.java
 import com.watabou.pixeldungeon.ui.Icons;
 import com.watabou.pixeldungeon.ui.RedButton;
 import com.watabou.pixeldungeon.utils.Utils;
@@ -46,6 +44,8 @@ import com.watabou.pixeldungeon.windows.WndClass;
 import com.watabou.pixeldungeon.windows.WndError;
 import com.watabou.pixeldungeon.windows.WndOptions;
 import com.watabou.utils.Callback;
+
+import java.util.HashMap;
 
 import static com.watabou.pixeldungeon.BuildConfig.DEBUG;
 
@@ -190,10 +190,7 @@ public class StartScene extends PixelScene {			//client  Scene
 			add( challenge );
 		}
 
-		ExitButton btnExit = new ExitButton();
-		btnExit.setPos( Camera.main.width - btnExit.width(), 0 );
-		add( btnExit );
-		
+
 		curClass = null;
 		updateClass( HeroClass.values()[PixelDungeon.lastClass()] );
 		

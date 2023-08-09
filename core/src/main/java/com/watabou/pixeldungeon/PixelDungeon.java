@@ -19,12 +19,7 @@ package com.watabou.pixeldungeon;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-import android.content.pm.ActivityInfo;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
+
 
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Music;
@@ -122,23 +117,14 @@ public class PixelDungeon extends Game {
 			"com.watabou.pixeldungeon.items.wands.WandOfTelekinesis" );
 	}
 
-	private FirebaseAnalytics mFirebaseAnalytics;
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
 
-		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 		updateImmersiveMode();
-		
-		DisplayMetrics metrics = new DisplayMetrics();
-		instance.getWindowManager().getDefaultDisplay().getMetrics( metrics );
-		boolean landscape = metrics.widthPixels > metrics.heightPixels;
-		
-		if (Preferences.INSTANCE.getBoolean( Preferences.KEY_LANDSCAPE, false ) != landscape) {
-			landscape( !landscape );
-		}
+
 		
 		Sample.INSTANCE.load( 
 			Assets.SND_CLICK, 
@@ -189,16 +175,7 @@ public class PixelDungeon extends Game {
 			Assets.SND_DEGRADE,
 			Assets.SND_MIMIC );
 	}
-	
-	@Override
-	public void onWindowFocusChanged( boolean hasFocus ) {
-		
-		super.onWindowFocusChanged( hasFocus );
-		
-		if (hasFocus) {
-			updateImmersiveMode();
-		}
-	}
+
 
 	@Override
 	public void onDestroy(){
@@ -214,65 +191,13 @@ public class PixelDungeon extends Game {
 	/*
 	 * ---> Prefernces
 	 */
-	
-	public static void landscape( boolean value ) {
-		Game.instance.setRequestedOrientation( value ?
-			ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE :
-			ActivityInfo.SCREEN_ORIENTATION_PORTRAIT );
-		Preferences.INSTANCE.put( Preferences.KEY_LANDSCAPE, value );
-	}
+
 	
 	public static boolean landscape() {
 		return width > height;
 	}
 	
-	// *** IMMERSIVE MODE ****
-	
-	private static boolean immersiveModeChanged = false;
-	
-    //@SuppressLint("NewApi")  //now is not new
-	public static void immerse( boolean value ) {
-		Preferences.INSTANCE.put( Preferences.KEY_IMMERSIVE, value );
-		
-		instance.runOnUiThread( new Runnable() {
-			@Override
-			public void run() {
-				updateImmersiveMode();
-				immersiveModeChanged = true;
-			}
-		} );
-	}
-	
-	@Override
-	public void onSurfaceChanged( GL10 gl, int width, int height ) {
-		super.onSurfaceChanged( gl, width, height );
-		
-		if (immersiveModeChanged) {
-			requestedReset = true;
-			immersiveModeChanged = false;
-		}
-	}
-	
-	//@SuppressLint("NewApi")  //now is not new
-	public static void updateImmersiveMode() {
-		if (android.os.Build.VERSION.SDK_INT >= 19) {
-			try {
-				// Sometime NullPointerException happens here
-				instance.getWindow().getDecorView().setSystemUiVisibility( 
-					immersed() ?
-					View.SYSTEM_UI_FLAG_LAYOUT_STABLE | 
-					View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | 
-					View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | 
-					View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | 
-					View.SYSTEM_UI_FLAG_FULLSCREEN | 
-					View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY 
-					:
-					0 );
-			} catch (Exception e) {
-				reportException( e );
-			}
-		}
-	}
+	// *** IMMERSIVE MODE ***
 	
 
 
