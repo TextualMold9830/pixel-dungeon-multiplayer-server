@@ -81,11 +81,13 @@ public class Button extends Component {
 		}
 	}
 	
-	protected void onTouchDown() {};
-	protected void onTouchUp() {};
-	protected void onClick() {};
-	
-	protected boolean onLongClick() {
+	protected void onTouchDown() {}
+
+    protected void onTouchUp() {}
+
+    protected void onClick() {}
+
+    protected boolean onLongClick() {
 		return false;
 	};
 	
