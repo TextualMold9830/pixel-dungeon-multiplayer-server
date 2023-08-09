@@ -21,6 +21,7 @@
 
 package com.watabou.noosa;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -285,15 +286,14 @@ public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTou
 			requestedReset = false;
 			
 			try {
-				switchScene( sceneClass.newInstance());
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InstantiationException e){
+				switchScene( sceneClass.getDeclaredConstructor().newInstance());
+			} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
+                     InstantiationException e) {
 				e.printStackTrace();
 			}
-			
-			
-		}
+
+
+        }
 		update();
 	}
 

@@ -17,8 +17,6 @@
  */
 package com.watabou.pixeldungeon.items;
 
-import java.util.HashMap;
-
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.items.armor.*;
@@ -30,11 +28,13 @@ import com.watabou.pixeldungeon.items.potions.*;
 import com.watabou.pixeldungeon.items.rings.*;
 import com.watabou.pixeldungeon.items.scrolls.*;
 import com.watabou.pixeldungeon.items.wands.*;
-import com.watabou.pixeldungeon.items.weapon.*;
+import com.watabou.pixeldungeon.items.weapon.Weapon;
 import com.watabou.pixeldungeon.items.weapon.melee.*;
 import com.watabou.pixeldungeon.items.weapon.missiles.*;
 import com.watabou.pixeldungeon.plants.*;
 import com.watabou.utils.Random;
+
+import java.util.HashMap;
 
 public class Generator {
 

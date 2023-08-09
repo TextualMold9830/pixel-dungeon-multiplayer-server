@@ -17,9 +17,6 @@
  */
 package com.watabou.pixeldungeon.actors;
 
-import android.util.Log;
-import android.util.SparseArray;
-
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.HeroHelp;
 import com.watabou.pixeldungeon.actors.blobs.Blob;
@@ -28,9 +25,9 @@ import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.actors.mobs.Mob;
 import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.network.SendData;
+import com.watabou.pixeldungeon.utils.GLog;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -109,7 +106,7 @@ public abstract class Actor implements Bundlable {
 						max = a.id;
 					}
 				}
-				Log.i("ACTOR", String.format("ACTOR %s GOTTEN ID %d", this, max+1));
+				GLog.i("ACTOR", String.format("ACTOR %s GOTTEN ID %d", this, max+1));
 				return (id = max + 1);
 			}
 		}
