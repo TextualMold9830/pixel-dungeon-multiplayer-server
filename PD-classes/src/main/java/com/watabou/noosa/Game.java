@@ -91,36 +91,8 @@ public class Game //extends Activity implements GLSurfaceView.Renderer, View.OnT
 		sceneClass = c;
 	}
 	
-	@Override
-	protected void onCreate( Bundle savedInstanceState ) {
-		super.onCreate( savedInstanceState );
-		
-		BitmapCache.context = TextureCache.context = instance = this;
-		
-		DisplayMetrics m = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics( m );
-		density = m.density;
-		
-		try {
-			version = getPackageManager().getPackageInfo( getPackageName(), 0 ).versionName;
-		} catch (NameNotFoundException e) {
-			version = "???";
-		}
-		try {
-			versionCode = getPackageManager().getPackageInfo( getPackageName(), 0 ).versionCode;
-		} catch (NameNotFoundException e) {
-			versionCode = 0;
-		}
-		
-		setVolumeControlStream( AudioManager.STREAM_MUSIC );
-		
-		view = new GLSurfaceView( this );
-		view.setEGLContextClientVersion( 2 );
-		view.setEGLConfigChooser( 5, 6, 5, 0, 0, 0 );
-		view.setRenderer( this );
-		view.setOnTouchListener( this );
-		setContentView( view );
-	}
+
+
 	
 	@Override
 	public void onResume() {

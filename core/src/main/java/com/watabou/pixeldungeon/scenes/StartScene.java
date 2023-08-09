@@ -265,12 +265,7 @@ public class StartScene extends PixelScene {			//client  Scene
 		Game.switchScene( IntroScene.class );
 
 	}
-	
-	@Override
-	protected void onBackPressed() {
-		PixelDungeon.switchNoFade( TitleScene.class );
-	}
-	
+
 	private static class GameButton extends RedButton {
 		
 		private static final int SECONDARY_COLOR_N	= 0xCACFC2;
