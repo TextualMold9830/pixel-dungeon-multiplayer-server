@@ -1,6 +1,5 @@
 package com.watabou.pixeldungeon.network;
 
-
 import com.nikita22007.multiplayer.server.desktop.Log;
 
 import com.watabou.pixeldungeon.actors.Actor;
@@ -596,7 +595,8 @@ public class NetworkPacket {
         return bagObj;
     }
 
-    public JSONArray packBags(@NotNull Bag[] bags) {
+
+    public JSONArray packBags(@NonNull Bag[] bags) {
         JSONArray bagsObj = new JSONArray();
         for (Bag bag : bags) {
             if (bag == null) {

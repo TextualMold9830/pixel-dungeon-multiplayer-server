@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.google.gms:google-services:4.3.13'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.1'
+    }
+}
+
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyy-MM-dd-HH-mm')
+    return formattedDate
+}
+
+allprojects {
+
+    ext {
+        appName = 'Pixel Dungeon Server'
+        appPackageName = 'com.nikita22007.pixeldungeonserver'
+
+        appVersionCode = 74
+        if (gradle.getStartParameter().getTaskRequests().toString().toLowerCase().contains("debug")) {
+            appVersionName = 'Server-debug'
+        } else {
+            appVersionName = 'Server-alpfa-' + getDate()
+        }
+
+        appAndroidCompileSDK = 28
+        appAndroidMinSDK = 16
+        appAndroidTargetSDK = 28
+    }
+    version = appVersionName
+
+    repositories {
+        google()
+        jcenter()
+    }
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xmaxerrs" << "40000" << "-Xlint"//<< " -Xmaxwarns" << "1000"
+        }
+    }
+}

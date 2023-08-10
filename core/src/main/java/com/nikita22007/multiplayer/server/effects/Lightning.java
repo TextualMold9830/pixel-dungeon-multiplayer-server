@@ -1,5 +1,5 @@
 /*
- * Pixel Dungeon
+ * Pixel Dungeon Multiplayer
  * Copyright (C) 2021-2023 Nikita Shaposhnikov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 package com.nikita22007.multiplayer.server.effects;
 
 import com.nikita22007.multiplayer.utils.Utils;
-import com.watabou.noosa.audio.Sample;
+import com.nikita22007.multiplayer.noosa.audio.Sample;
 import com.watabou.pixeldungeon.Assets;
 import com.watabou.pixeldungeon.network.SendData;
 import com.watabou.utils.Callback;

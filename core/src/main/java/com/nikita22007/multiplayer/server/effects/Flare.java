@@ -18,13 +18,6 @@
  */
 package com.nikita22007.multiplayer.server.effects;
 
-import com.watabou.noosa.Group;
-import com.watabou.noosa.Visual;
-import com.watabou.pixeldungeon.network.SendData;
-import com.watabou.utils.PointF;
-
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,7 +64,7 @@ public final class Flare {
 		this.pos = pos;
 	}
 
-	public void show(@NotNull Visual visual, float duration ) {
+	public void show(@NonNull Visual visual, float duration ) {
 		show(visual.parent, visual.center(),duration);
 	}
 

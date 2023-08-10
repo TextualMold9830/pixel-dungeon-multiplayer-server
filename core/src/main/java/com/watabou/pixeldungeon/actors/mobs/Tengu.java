@@ -19,7 +19,7 @@ package com.watabou.pixeldungeon.actors.mobs;
 
 import java.util.HashSet;
 
-import com.watabou.noosa.audio.Sample;
+import com.nikita22007.multiplayer.noosa.audio.Sample;
 import com.watabou.pixeldungeon.Assets;
 import com.watabou.pixeldungeon.Badges;
 import com.watabou.pixeldungeon.Statistics;
@@ -78,7 +78,7 @@ public class Tengu extends Mob {
     @Override
     public void die(Object cause) {
 
-        Badge badgeToCheck = null;
+        Badges.Badge badgeToCheck = null;
         for (Hero hero : Dungeon.heroes) {
             if (hero==null){continue;};
             switch (hero.heroClass) {

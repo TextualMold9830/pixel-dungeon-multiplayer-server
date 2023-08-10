@@ -21,12 +21,33 @@
 
 package com.watabou.noosa;
 
+import java.util.ArrayList;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import com.watabou.glscripts.Script;
+import com.watabou.gltextures.TextureCache;
+import com.watabou.input.Keys;
+import com.watabou.input.Touchscreen;
+import com.watabou.utils.BitmapCache;
 import com.watabou.utils.SystemTime;
 
-import java.lang.reflect.InvocationTargetException;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.media.AudioManager;
+import android.opengl.GLES20;
+import android.opengl.GLSurfaceView;
+import android.os.Bundle;
+import android.os.Vibrator;
+import android.util.DisplayMetrics;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.View;
 
-public class Game //extends Activity implements GLSurfaceView.Renderer, View.OnTouchListener
-{
+public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTouchListener {
 	
 	public static Game instance;  //game inherits context, then we  can use "instance" as a Context
 
@@ -56,28 +77,166 @@ public class Game //extends Activity implements GLSurfaceView.Renderer, View.OnT
 	// Milliseconds passed since previous update
 	protected long step;
 	
-	public static float timeScale = 1f; //visual-only
-	public static float elapsed = 0f; //visual-only
-	public static float timeTotal = 0f; //visual-only
+	public static float timeScale = 1f;
+	public static float elapsed = 0f;
+	public static float timeTotal = 0f;
+	
+	protected GLSurfaceView view;
+	protected SurfaceHolder holder;
+	
+	// Accumulated touch events
+	protected final ArrayList<MotionEvent> motionEvents = new ArrayList<MotionEvent>();
+	
+	// Accumulated key events
+	protected final ArrayList<KeyEvent> keysEvents = new ArrayList<KeyEvent>();
 	
 	public Game( Class<? extends Scene> c ) {
 		super();
 		sceneClass = c;
 	}
 	
-
-
+	@Override
+	protected void onCreate( Bundle savedInstanceState ) {
+		super.onCreate( savedInstanceState );
+		
+		BitmapCache.context = TextureCache.context = instance = this;
+		
+		DisplayMetrics m = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics( m );
+		density = m.density;
+		
+		try {
+			version = getPackageManager().getPackageInfo( getPackageName(), 0 ).versionName;
+		} catch (NameNotFoundException e) {
+			version = "???";
+		}
+		try {
+			versionCode = getPackageManager().getPackageInfo( getPackageName(), 0 ).versionCode;
+		} catch (NameNotFoundException e) {
+			versionCode = 0;
+		}
+		
+		setVolumeControlStream( AudioManager.STREAM_MUSIC );
+		
+		view = new GLSurfaceView( this );
+		view.setEGLContextClientVersion( 2 );
+		view.setEGLConfigChooser( 5, 6, 5, 0, 0, 0 );
+		view.setRenderer( this );
+		view.setOnTouchListener( this );
+		setContentView( view );
+	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		now = 0;
+		view.onResume();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		
+		if (scene != null) {
+			scene.pause();
+		}
+		
+		view.onPause();
+		Script.reset();
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		destroyGame();
+	}
+	
+	@SuppressLint({ "Recycle", "ClickableViewAccessibility" })
+	@Override
+	public boolean onTouch( View view, MotionEvent event ) {
+		synchronized (motionEvents) {
+			motionEvents.add( MotionEvent.obtain( event ) );
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean onKeyDown( int keyCode, KeyEvent event ) {
+		
+		if (keyCode != Keys.BACK &&
+				keyCode != Keys.MENU) {
+			return false;
+		}
+		
+		synchronized (motionEvents) {
+			keysEvents.add( event );
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean onKeyUp( int keyCode, KeyEvent event ) {
+		
+		if (keyCode != Keys.BACK &&
+				keyCode != Keys.MENU) {
+			return false;
+		}
+		
+		synchronized (motionEvents) {
+			keysEvents.add( event );
+		}
+		return true;
+	}
 
 	public void server_step(){
 		SystemTime.tick();
-
-
 		long rightNow = SystemTime.now;
 		step = (now == 0 ? 0 : rightNow - now);
 		now = rightNow;
 
 		step();
+	}
+
+	@Override
+	public void onDrawFrame( GL10 gl ) {
+		
+		if (width == 0 || height == 0) {
+			return;
+		}
+
+		server_step();
+
+		NoosaScript.get().resetCamera();
+		GLES20.glScissor( 0, 0, width, height );
+		GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT );
+		draw();
+	}
+	
+	@Override
+	public void onSurfaceChanged( GL10 gl, int width, int height ) {
+		
+		GLES20.glViewport(0, 0, width, height);
+		
+		if (height != Game.height || width != Game.width) {
+			
+			Game.width = width;
+			Game.height = height;
+			
+			resetScene();
+		}
+	}
+	
+	@Override
+	public void onSurfaceCreated( GL10 gl, EGLConfig config ) {
+		GLES20.glEnable( GL10.GL_BLEND );
+		// For premultiplied alpha:
+		// GLES20.glBlendFunc( GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA );
+		GLES20.glBlendFunc( GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA );
+		
+		GLES20.glEnable( GL10.GL_SCISSOR_TEST );
+		
+		TextureCache.reload();
 	}
 	
 	protected void destroyGame() {
@@ -88,11 +247,11 @@ public class Game //extends Activity implements GLSurfaceView.Renderer, View.OnT
 		
 		//instance = null;
 	}
-	// to be removed
-//	public static void resetScene() {
-//		switchScene( instance.sceneClass );
-//	}
-
+	
+	public static void resetScene() {
+		switchScene( instance.sceneClass );
+	}
+	
 	public static void switchScene(Class<? extends Scene> c) {
 		switchScene(c, null);
 	}
@@ -113,14 +272,15 @@ public class Game //extends Activity implements GLSurfaceView.Renderer, View.OnT
 			requestedReset = false;
 			
 			try {
-				switchScene( sceneClass.getDeclaredConstructor().newInstance());
-			} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
-                     InstantiationException e) {
+				switchScene( sceneClass.newInstance());
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e){
 				e.printStackTrace();
 			}
-
-
-        }
+			
+			
+		}
 		update();
 	}
 
@@ -145,15 +305,28 @@ public class Game //extends Activity implements GLSurfaceView.Renderer, View.OnT
 		Game.timeScale = 1f;
 		Game.timeTotal = 0f;
 	}
-
+	
 	protected void update() {
 		Game.elapsed = Game.timeScale * step * 0.001f;
 		Game.timeTotal += Game.elapsed;
-
+		
+		synchronized (motionEvents) {
+			Touchscreen.processTouchEvents( motionEvents );
+			motionEvents.clear();
+		}
+		synchronized (keysEvents) {
+			Keys.processTouchEvents( keysEvents );
+			keysEvents.clear();
+		}
+		
 		scene.update();
 		Camera.updateAll();
 	}
-
+	
+	public static void vibrate( int milliseconds ) {
+		((Vibrator)instance.getSystemService( VIBRATOR_SERVICE )).vibrate( milliseconds );
+	}
+	
 	public interface SceneChangeCallback{
 		void beforeCreate();
 		void afterCreate();

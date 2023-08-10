@@ -33,9 +33,9 @@ import static com.watabou.pixeldungeon.network.SendData.sendBuff;
 public class Metabolism extends Glyph {
 
 	private static final String TXT_METABOLISM	= "%s of metabolism";
-	
+
 	private static Glowing RED = new Glowing( 0xCC0000 );
-	
+
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage) {
 

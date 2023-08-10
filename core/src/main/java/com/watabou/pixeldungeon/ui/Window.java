@@ -18,15 +18,19 @@
 package com.watabou.pixeldungeon.ui;
 
 import com.nikita22007.multiplayer.server.desktop.Log;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Group;
-import com.watabou.noosa.NinePatch;
+
+import android.util.Log;
+
+import com.watabou.input.Keys;
+import com.watabou.input.Keys.Key;
+import com.watabou.input.Touchscreen.Touch;
+
 import com.watabou.pixeldungeon.Chrome;
 import com.watabou.pixeldungeon.Settings;
 import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.effects.ShadowBox;
 import com.watabou.pixeldungeon.scenes.PixelScene;
+
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
@@ -47,7 +51,7 @@ public class Window extends Group {
 
 	private Hero ownerHero;
 	//Each window CURRENTLY open for ownerHero has a unique id. Two windows can have the same id only with different ownerHero.
-	public int id;
+	private int id; //it should be private
 
 	public static final int TITLE_COLOR = 0xFFFF44;
 
@@ -61,7 +65,7 @@ public class Window extends Group {
 	}
 
 	protected synchronized void attachToHero(Hero hero) {
-		if (id > 0) {
+		if (getId() > 0) {
 			if (hero != getOwnerHero()) {
 				assert false;
 			}
@@ -85,7 +89,6 @@ public class Window extends Group {
 			
 	public Window( int width, int height, NinePatch chrome ) {
 		super();
-
 		this.chrome = chrome;
 		
 		this.width = width;
@@ -117,7 +120,6 @@ public class Window extends Group {
 			camera.x / camera.zoom, 
 			camera.y / camera.zoom, 
 			chrome.width(), chrome.height );
-
 	}
 
 	public static void OnButtonPressed(Hero hero, int ID, int button, @Nullable JSONObject res) {
@@ -163,7 +165,7 @@ public class Window extends Group {
 		Camera.remove( camera );
 
 		if (getOwnerHero() != null) {
-			Window removed = windows.get(ownerHero).remove(id);
+			Window removed = windows.get(ownerHero).remove(getId());
 			if ((removed != null) && (removed != this)) {
 				throw new AssertionError("Removed window is not current Window");
 			}
@@ -191,5 +193,12 @@ public class Window extends Group {
 
 	private void setOwnerHero(Hero ownerHero) {
 		this.ownerHero = ownerHero;
+	}
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

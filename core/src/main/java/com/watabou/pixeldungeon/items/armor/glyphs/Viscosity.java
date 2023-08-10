@@ -37,7 +37,7 @@ import com.watabou.utils.Random;
 public class Viscosity extends Glyph {
 
 	private static final String TXT_VISCOSITY	= "%s of viscosity";
-	
+
 	private static Glowing PURPLE = new Glowing( 0x8844CC );
 	
 	@Override

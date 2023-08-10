@@ -233,7 +233,7 @@ class ClientThread implements Callable<String> {
         }
     }
 
-    //com.watabou.pixeldungeon.network functions
+    //network functions
     protected void flush() {
         try {
             synchronized (packet.dataRef) {

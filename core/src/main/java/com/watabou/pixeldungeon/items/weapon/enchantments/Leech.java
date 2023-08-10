@@ -30,6 +30,7 @@ public class Leech extends Weapon.Enchantment {
 	private static final String TXT_VAMPIRIC	= "vampiric %s";
 	
 	private static Glowing RED = new Glowing( 0x660022 );
+8d53114817cdf7bcc97a191030fa7
 	
 	@Override
 	public boolean proc( Weapon weapon, Char attacker, Char defender, int damage ) {

@@ -17,16 +17,15 @@
  */
 package com.watabou.pixeldungeon;
 
-import javax.microedition.khronos.opengles.GL10;
-
-
-
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.pixeldungeon.network.Server;
 import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.pixeldungeon.scenes.PixelScene;
+import com.watabou.pixeldungeon.scenes.TitleScene;
+
+import javax.microedition.khronos.opengles.GL10;
 
 public class PixelDungeon extends Game {
 	
@@ -122,12 +121,18 @@ public class PixelDungeon extends Game {
 	protected void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
 
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 		updateImmersiveMode();
-
 		
-		Music.INSTANCE.enable( music() );
-		Sample.INSTANCE.enable( soundFx() );
+		DisplayMetrics metrics = new DisplayMetrics();
+		instance.getWindowManager().getDefaultDisplay().getMetrics( metrics );
+		boolean landscape = metrics.widthPixels > metrics.heightPixels;
+		
+		if (Preferences.INSTANCE.getBoolean( Preferences.KEY_LANDSCAPE, false ) != landscape) {
+			landscape( !landscape );
+		}
+>>>>>>> 9b69153d0798d53114817cdf7bcc97a191030fa7
 		
 		Sample.INSTANCE.load( 
 			Assets.SND_CLICK, 
@@ -179,7 +184,6 @@ public class PixelDungeon extends Game {
 			Assets.SND_MIMIC );
 	}
 
-
 	@Override
 	public void onDestroy(){
 		Server.stopServer();
@@ -195,14 +199,68 @@ public class PixelDungeon extends Game {
 	 * ---> Prefernces
 	 */
 
-	
 	public static boolean landscape() {
 		return width > height;
 	}
-	
-	// *** IMMERSIVE MODE ***
-	
 
+	// *** IMMERSIVE MODE ****
+	
+	private static boolean immersiveModeChanged = false;
+	
+    //@SuppressLint("NewApi")  //now is not new
+	public static void immerse( boolean value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_IMMERSIVE, value );
+		
+		instance.runOnUiThread( new Runnable() {
+			@Override
+			public void run() {
+				updateImmersiveMode();
+				immersiveModeChanged = true;
+			}
+		} );
+	}
+	
+	@Override
+	public void onSurfaceChanged( GL10 gl, int width, int height ) {
+		super.onSurfaceChanged( gl, width, height );
+		
+		if (immersiveModeChanged) {
+			requestedReset = true;
+			immersiveModeChanged = false;
+		}
+	}
+	
+	//@SuppressLint("NewApi")  //now is not new
+	public static void updateImmersiveMode() {
+		if (android.os.Build.VERSION.SDK_INT >= 19) {
+			try {
+				// Sometime NullPointerException happens here
+				instance.getWindow().getDecorView().setSystemUiVisibility( 
+					immersed() ?
+					View.SYSTEM_UI_FLAG_LAYOUT_STABLE | 
+					View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | 
+					View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | 
+					View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | 
+					View.SYSTEM_UI_FLAG_FULLSCREEN | 
+					View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY 
+					:
+					0 );
+			} catch (Exception e) {
+				reportException( e );
+			}
+		}
+	}
+	
+	public static boolean immersed() {
+		return Preferences.INSTANCE.getBoolean( Preferences.KEY_IMMERSIVE, false );
+	}
+	
+	// *****************************
+	
+	public static void scaleUp( boolean value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_SCALE_UP, value );
+		switchScene( TitleScene.class );
+	}
 
 	public static boolean scaleUp() {
 		return Preferences.INSTANCE.getBoolean( Preferences.KEY_SCALE_UP, true );
@@ -261,16 +319,7 @@ public class PixelDungeon extends Game {
 	public static boolean music() {
 		return Preferences.INSTANCE.getBoolean( Preferences.KEY_MUSIC, true );
 	}
-	
-	public static void soundFx( boolean value ) {
-		Sample.INSTANCE.enable( value );
-		Preferences.INSTANCE.put( Preferences.KEY_SOUND_FX, value );
-	}
-	
-	public static boolean soundFx() {
-		return Preferences.INSTANCE.getBoolean( Preferences.KEY_SOUND_FX, true );
-	}
-	
+
 	public static void donated( String value ) {
 		Preferences.INSTANCE.put( Preferences.KEY_DONATED, value );
 	}

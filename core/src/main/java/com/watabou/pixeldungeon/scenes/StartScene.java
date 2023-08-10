@@ -17,21 +17,23 @@
  */
 package com.watabou.pixeldungeon.scenes;
 
-import com.watabou.noosa.BitmapText;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Image;
-import com.watabou.noosa.audio.Sample;
+import java.util.HashMap;
+
+
+import com.nikita22007.multiplayer.noosa.audio.Sample;
 import com.watabou.noosa.particles.BitmaskEmitter;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.ui.Button;
-import com.watabou.pixeldungeon.*;
+import com.watabou.pixeldungeon.Assets;
+import com.watabou.pixeldungeon.Badges;
+import com.watabou.pixeldungeon.Dungeon;
+import com.watabou.pixeldungeon.GamesInProgress;
+import com.watabou.pixeldungeon.network.Server;
+import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
 import com.watabou.pixeldungeon.effects.BannerSprites;
-import com.watabou.pixeldungeon.effects.BannerSprites.Type;
 import com.watabou.pixeldungeon.effects.Speck;
-import com.watabou.pixeldungeon.network.Server;
-import com.watabou.pixeldungeon.ui.Archs;
+import com.watabou.pixeldungeon.effects.BannerSprites.Type;
 import com.watabou.pixeldungeon.ui.Icons;
 import com.watabou.pixeldungeon.ui.RedButton;
 import com.watabou.pixeldungeon.utils.Utils;
@@ -40,8 +42,6 @@ import com.watabou.pixeldungeon.windows.WndClass;
 import com.watabou.pixeldungeon.windows.WndError;
 import com.watabou.pixeldungeon.windows.WndOptions;
 import com.watabou.utils.Callback;
-
-import java.util.HashMap;
 
 import static com.watabou.pixeldungeon.BuildConfig.DEBUG;
 
@@ -101,11 +101,6 @@ public class StartScene extends PixelScene {			//client  Scene
 		float left = (w - width) / 2;
 		float top = (h - height) / 2; 
 		float bottom = h - top;
-		
-		Archs archs = new Archs();
-		archs.setSize( w, h );
-		add( archs ); 
-		
 		Image title = BannerSprites.get( Type.SELECT_YOUR_HERO );
 		title.x = align( (w - title.width()) / 2 );
 		title.y = align( top );
@@ -189,7 +184,6 @@ public class StartScene extends PixelScene {			//client  Scene
 				top + shieldH - challenge.height() / 2 );
 			add( challenge );
 		}
-
 
 		curClass = null;
 		updateClass( HeroClass.values()[PixelDungeon.lastClass()] );

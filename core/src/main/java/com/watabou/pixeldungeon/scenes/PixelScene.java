@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.scenes;
 
-
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.BitmapText.Font;
 import com.watabou.noosa.BitmapTextMultiline;

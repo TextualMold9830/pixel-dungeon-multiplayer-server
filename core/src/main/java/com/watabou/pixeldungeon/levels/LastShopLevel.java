@@ -113,7 +113,7 @@ public class LastShopLevel extends RegularLevel {
 		if (roomShop == null || shopSquare < 30) {
 			return false;
 		} else {
-			roomShop.type = Imp.Quest.isCompleted() ? Type.SHOP : Type.STANDARD;
+			roomShop.type = Imp.Quest.isCompleted() ? Room.Type.SHOP : Room.Type.STANDARD;
 		}
 		
 		paint();

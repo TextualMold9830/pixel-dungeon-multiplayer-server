@@ -33,7 +33,7 @@ public class Horror extends Weapon.Enchantment {
 	private static final String TXT_ELDRITCH	= "eldritch %s";
 	
 	private static Glowing GREY = new Glowing( 0x222222 );
-	
+
 	@Override
 	public boolean proc( Weapon weapon, Char attacker, Char defender, int damage ) {
 		// lvl 0 - 20%

@@ -17,11 +17,6 @@
  */
 package com.watabou.pixeldungeon.levels;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-
 import com.watabou.pixeldungeon.Bones;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Actor;
@@ -32,11 +27,16 @@ import com.watabou.pixeldungeon.items.Heap;
 import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.watabou.pixeldungeon.levels.Room.Type;
-import com.watabou.pixeldungeon.levels.painters.*;
+import com.watabou.pixeldungeon.levels.painters.Painter;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Graph;
 import com.watabou.utils.Random;
 import com.watabou.utils.Rect;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 public abstract class RegularLevel extends Level {
 
@@ -44,8 +44,8 @@ public abstract class RegularLevel extends Level {
 	
 	protected Room roomEntrance;
 	protected Room roomExit;
-	
-	protected ArrayList<Type> specials;
+
+	protected ArrayList<Room.Type> specials;
 	
 	public int secretDoors;
 	
@@ -127,13 +127,13 @@ public abstract class RegularLevel extends Level {
 			if (shop == null) {
 				return false;
 			} else {
-				shop.type = Type.SHOP;
+				shop.type = Room.Type.SHOP;
 			}
 		}
 		
-		specials = new ArrayList<Type>( Room.SPECIALS );
+		specials = new ArrayList<Room.Type>( Room.SPECIALS );
 		if (Dungeon.bossLevel( Dungeon.depth + 1 )) {
-			specials.remove( Type.WEAK_FLOOR );
+			specials.remove( Room.Type.WEAK_FLOOR );
 		}
 		assignRoomType();
 		
@@ -466,8 +466,8 @@ public abstract class RegularLevel extends Level {
 	}
 	
 	protected boolean joinRooms( Room r, Room n ) {
-		
-		if (r.type != Type.STANDARD || n.type != Type.STANDARD) {
+
+		if (r.type != Room.Type.STANDARD || n.type != Room.Type.STANDARD) {
 			return false;
 		}
 		
@@ -546,8 +546,8 @@ public abstract class RegularLevel extends Level {
 			if (++count > 10) {
 				return -1;
 			}
-			
-			Room room = randomRoom( Type.STANDARD, 10 );
+
+			Room room = randomRoom( Room.Type.STANDARD, 10 );
 			if (room == null) {
 				continue;
 			}

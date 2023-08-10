@@ -21,8 +21,11 @@
 
 package com.watabou.noosa;
 
-public class Scene extends Group {
+import com.watabou.input.Keys;
+import com.watabou.utils.Signal;
 
+public class Scene extends Group {
+	
 	private Signal.Listener<Keys.Key> keyListener;
 	
 	public void create() {
@@ -49,7 +52,13 @@ public class Scene extends Group {
 		super.destroy();
 	}
 	
-
+	public void pause() {
+		
+	}
+	
+	public void resume() {
+		
+	}
 	
 	@Override
 	public void update() {
@@ -59,6 +68,14 @@ public class Scene extends Group {
 	@Override
 	public Camera camera() {
 		return Camera.main;
+	}
+	
+	protected void onBackPressed() {
+		Game.instance.finish();
+	}
+	
+	protected void onMenuPressed() {
+		
 	}
 
 }

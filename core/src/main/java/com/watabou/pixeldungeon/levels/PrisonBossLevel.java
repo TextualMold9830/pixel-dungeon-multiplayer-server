@@ -182,7 +182,6 @@ public class PrisonBossLevel extends RegularLevel {
 			Point door = r.connected.get( n );
 			
 			if (r.type == Type.PASSAGE && n.type == Type.PASSAGE) {
-				
 				Painter.set( this, door, Terrain.EMPTY );
 				
 			} else {

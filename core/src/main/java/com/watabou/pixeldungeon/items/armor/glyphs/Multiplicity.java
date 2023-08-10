@@ -35,8 +35,9 @@ import com.watabou.utils.Random;
 public class Multiplicity extends Glyph {
 
 	private static final String TXT_MULTIPLICITY	= "%s of multiplicity";
-	
+
 	private static Glowing PINK = new Glowing( 0xCCAA88 );
+
 	
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage) {

@@ -17,7 +17,7 @@
  */
 package com.watabou.pixeldungeon.items.armor.glyphs;
 
-import com.watabou.noosa.Camera;
+import com.nikita22007.multiplayer.noosa.Camera;
 import com.watabou.pixeldungeon.actors.Char;
 import com.watabou.pixeldungeon.actors.buffs.Buff;
 import com.watabou.pixeldungeon.actors.buffs.Roots;
@@ -26,14 +26,13 @@ import com.watabou.pixeldungeon.effects.particles.EarthParticle;
 import com.watabou.pixeldungeon.items.armor.Armor;
 import com.watabou.pixeldungeon.items.armor.Armor.Glyph;
 import com.watabou.pixeldungeon.plants.Earthroot;
-import com.watabou.pixeldungeon.sprites.ItemSprite;
 import com.watabou.pixeldungeon.sprites.ItemSprite.Glowing;
 import com.watabou.utils.Random;
 
 public class Entanglement extends Glyph {
 
 	private static final String TXT_ENTANGLEMENT	= "%s of entanglement";
-	
+
 	private static Glowing GREEN = new Glowing( 0x448822 );
 	
 	@Override
@@ -46,7 +45,7 @@ public class Entanglement extends Glyph {
 			Buff.prolong( defender, Roots.class, 5 - level / 5 );
 			Buff.affect( defender, Earthroot.Armor.class ).level( 5 * (level + 1) );
 			CellEmitter.bottom( defender.pos ).start( EarthParticle.FACTORY, 0.05f, 8 );
-			Camera.main.shake( 1, 0.4f );
+			Camera.shake( 1, 0.4f );
 			
 		}
 

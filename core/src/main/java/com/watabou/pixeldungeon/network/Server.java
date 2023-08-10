@@ -6,6 +6,7 @@ import android.net.nsd.NsdServiceInfo;
 
 import com.nikita22007.multiplayer.server.desktop.Log;
 import com.watabou.noosa.Game;
+
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.Settings;
 import com.watabou.pixeldungeon.actors.hero.Hero;
@@ -28,10 +29,11 @@ public class Server extends Thread {
     protected static int localPort;
     public static boolean started = false;
 
-    //com.watabou.pixeldungeon.network
+
+    //network
     protected static ServerSocket serverSocket;
     protected static Server serverThread;
-    protected static ClientThread[] clients;
+    protected static ClientThread[] clients = new ClientThread[0];
     protected static RelayThread relay;
 
     //NSD
@@ -198,12 +200,12 @@ public class Server extends Thread {
         NsdServiceInfo serviceInfo = new NsdServiceInfo();
 
         // The name is subject to change based on conflicts
-        // with other services advertised on the same com.watabou.pixeldungeon.network.
+
+        // with other services advertised on the same network.
         serviceInfo.setServiceName(serviceName);
         serviceInfo.setServiceType(SERVICETYPE);
-        serviceInfo.setPort(port);
-        //nsdManager = (NsdManager) Game.instance.getSystemService(Context.NSD_SERVICE);
-        nsdManager = new NsdManager();
+        //serviceInfo.setPort(port);
+        nsdManager = (NsdManager) Game.instance.getSystemService(Context.NSD_SERVICE);
         nsdManager.registerService(
                 serviceInfo, NsdManager.PROTOCOL_DNS_SD, registrationListener);
     }

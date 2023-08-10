@@ -21,102 +21,121 @@
 
 package com.watabou.noosa.audio;
 
-public enum Music {
+import java.io.IOException;
+
+import com.watabou.noosa.Game;
+
+import android.content.res.AssetFileDescriptor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+
+public enum Music implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
 	
 	INSTANCE;
-	// to be removed?
-//	private MediaPlayer player;
-//
-//	private String lastPlayed;
-//	private boolean looping;
-//
-//	private boolean enabled = true;
-
+	
+	private MediaPlayer player;
+	
+	private String lastPlayed;
+	private boolean looping;
+	
+	private boolean enabled = true;
+	
 	public void play( String assetName, boolean looping ) {
-		// to be removed?
-//
-//		if (isPlaying() && lastPlayed.equals( assetName )) {
-//			return;
-//		}
-//
-//		stop();
-//
-//		lastPlayed = assetName;
-//		this.looping = looping;
-//
-//		if (!enabled || assetName == null) {
-//			return;
-//		}
-//
-//		try {
-//
-//			AssetFileDescriptor afd = Game.instance.getAssets().openFd( assetName );
-//
-//			player = new MediaPlayer();
-//			player.setAudioStreamType( AudioManager.STREAM_MUSIC );
-//			player.setDataSource( afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength() );
-//			player.setOnPreparedListener( this );
-//			player.setOnErrorListener( this );
-//			player.prepareAsync();
-//
-//		} catch (IOException e) {
-//
-//			player.release();
-//			player = null;
-//
-//		}
+		
+		if (isPlaying() && lastPlayed.equals( assetName )) {
+			return;
+		}
+		
+		stop();
+		
+		lastPlayed = assetName;
+		this.looping = looping;
+
+		if (!enabled || assetName == null) {
+			return;
+		}
+		
+		try {
+			
+			AssetFileDescriptor afd = Game.instance.getAssets().openFd( assetName );
+			
+			player = new MediaPlayer();
+			player.setAudioStreamType( AudioManager.STREAM_MUSIC );
+			player.setDataSource( afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength() );
+			player.setOnPreparedListener( this );
+			player.setOnErrorListener( this );
+			player.prepareAsync();
+			
+		} catch (IOException e) {
+			
+			player.release();
+			player = null;
+			
+		}
 	}
 	
 	public void mute() {
-		//to be removed
-//		lastPlayed = null;
-//		stop();
+		lastPlayed = null;
+		stop();
 	}
 
-
+	@Override
+	public void onPrepared( MediaPlayer player ) {
+		player.start();
+		player.setLooping(looping);
+	}
+	
+	@Override
+	public boolean onError( MediaPlayer mp, int what, int extra ) {
+		if (player != null) {
+			player.release();
+			player = null;
+		}
+		return true;
+	}
 	
 	public void pause() {
-		// to be removed
-//		if (player != null) {
-//			player.pause();
-//		}
+		if (player != null) {
+			player.pause();
+		}
 	}
 	
 	public void resume() {
-		// to be removed
-//		if (player != null) {
-//			player.start();
-//			player.setLooping(looping);
-//		}
+		if (player != null) {
+			player.start();
+			player.setLooping(looping);
+		}
 	}
 	
 	public void stop() {
-		// to be removed
-//		if (player != null) {
-//			player.stop();
-//			player.release();
-//			player = null;
-//		}
+		if (player != null) {
+			player.stop();
+			player.release();
+			player = null;
+		}
 	}
 	
 	public void volume( float value ) {
-		// to be removed
-
-//		if (player != null) {
-//			player.setVolume( value, value );
-//		}
+		if (player != null) {
+			player.setVolume( value, value );
+		}
 	}
 	
-
+	public boolean isPlaying() {
+		return player != null && player.isPlaying();
+	}
+	
 	public void enable( boolean value ) {
-		// to be removed
-//		enabled = value;
-//		if (isPlaying() && !value) {
-//			stop();
-//		} else
-//		if (!isPlaying() && value) {
-//			play( lastPlayed, looping );
-//		}
+		enabled = value;
+		if (isPlaying() && !value) {
+			stop();
+		} else
+		if (!isPlaying() && value) {
+			play( lastPlayed, looping );
+		}
 	}
 	
+	public boolean isEnabled() {
+		return enabled;
+	}
 }

@@ -25,7 +25,7 @@ import java.util.LinkedList;
 
 public class Signal<T> {
 
-	private LinkedList<Listener<T>> listeners = new LinkedList<Listener<T>>();
+	private LinkedList<Listener<T>> listeners = new LinkedList<Signal.Listener<T>>();
 	
 	private boolean canceled;
 	

@@ -249,6 +249,16 @@ action move char:
     "animation_state_after_move": "idle" // ...
 }
 
+action AlphaTweener:
+{
+    "action_type": "sprite_action"
+    "action": "alpha_tweener"
+    "actor_id":1
+    "start_alpha": 1f
+    "target_alpha": 1f
+    "interval": 3f
+}
+
 action destroy char
 {
     "action_type": "destroy_char"
@@ -350,6 +360,68 @@ action missile_sprite_visual
     //item:
     item_image: 3 //index in spritesheet
     item_glowing: glowing //see item
+}
+
+action CheckedCell
+{
+    "action_type": "checked_cell_visual"
+    "pos": 2
+}
+
+action flare
+{
+    "action_type": "flare_visual"
+    "position_x": 1f
+    "position_y": 2f
+    "color": 0xFFFFFF //(hardlight)
+    "duration": 3f
+    "light_mode": false
+    "rays": 3 //count of rays
+    "radius": 5f
+    "angle": 45 //degrees
+    "angular_speed" 180 //degrees
+}
+
+
+/// sound
+action play_sample //play sample by id, load it, if is not loaded.
+{
+    "action_type": "play_sample"
+    "sample": "snd_boss.mp3"
+    "left_volume" : 1f
+    "right_volume": 1f
+    "rate": 1.1f
+}
+
+action load_sample
+{
+    "action_type": "load_sample"
+    "samples": [
+        "snd_boss.mp3"
+    ]
+}
+
+action reload_sample //if sample is not inside new list, it removes.
+{
+    "action_type": "reload_sample"
+    "samples": [
+        "snd_boss.mp3"
+    ]
+}
+
+action unload_sample
+{
+    "action_type": "unload_sample"
+    "sample": "snd_boss.mp3"
+}
+
+//camera
+
+action shake_camera
+{
+    "action_type": "shake_camera"
+    "magnitude": 1f
+    "duration": 2f
 }
 
 server_actions

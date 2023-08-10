@@ -17,6 +17,7 @@
  */
 package com.watabou.pixeldungeon.actors;
 
+
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.HeroHelp;
 import com.watabou.pixeldungeon.actors.blobs.Blob;
@@ -32,6 +33,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashMap;
+
 import java.util.HashSet;
 
 import static com.watabou.pixeldungeon.network.SendData.sendActorRemoving;
@@ -107,7 +109,7 @@ public abstract class Actor implements Bundlable {
 						max = a.id;
 					}
 				}
-				GLog.i("ACTOR", String.format("ACTOR %s GOTTEN ID %d", this, max+1));
+				Log.i("ACTOR", String.format("ACTOR %s GOTTEN ID %d", this, max+1));
 				return (id = max + 1);
 			}
 		}
@@ -118,9 +120,9 @@ public abstract class Actor implements Bundlable {
 	
 	private static final HashSet<Actor> all = new HashSet<Actor>();
 	private volatile static Actor current;
-	
+
 	private static HashMap<Integer, Actor> ids = new HashMap<>();
-	
+
 	private static float now = 0;
 	
 	private static Char[] chars = new Char[Level.LENGTH];

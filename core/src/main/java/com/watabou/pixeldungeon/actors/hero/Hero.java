@@ -21,9 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.audio.Sample;
+import com.nikita22007.multiplayer.noosa.Camera;
+import com.nikita22007.multiplayer.noosa.audio.Sample;
 import com.watabou.pixeldungeon.Assets;
 import com.watabou.pixeldungeon.Badges;
 import com.watabou.pixeldungeon.Bones;
@@ -685,7 +684,7 @@ public class Hero extends Char {
 				switch (heap.type) {
 				case TOMB:
 					Sample.INSTANCE.play( Assets.SND_TOMB );
-					Camera.main.shake( 1, 0.5f );
+					Camera.shake( 1, 0.5f );
 					break;
 				case SKELETON:
 					break;
@@ -960,7 +959,7 @@ public class Hero extends Char {
 	private boolean getCloser( final int target ) {
 		
 		if (rooted) {
-			Camera.main.shake( 1, 1f );
+			Camera.shake( 1, 1f );
 			return false;
 		}
 		
@@ -1036,8 +1035,8 @@ public class Hero extends Char {
 			} else {
 				curAction = new HeroAction.Attack( ch );
 			}
-			
-		} else if (Level.fieldOfView[cell] && (heap = Dungeon.level.heaps.get( cell )) != null && heap.type != Type.HIDDEN) {
+
+		} else if (Level.fieldOfView[cell] && (heap = Dungeon.level.heaps.get( cell )) != null && heap.type != Heap.Type.HIDDEN) {
 
 			switch (heap.type) {
 			case HEAP:
@@ -1281,8 +1280,9 @@ public class Hero extends Char {
 		
 		GameScene.gameOver(this);
 		
-		if (cause instanceof Doom) {
-			((Doom)cause).onDeath();
+
+		if (cause instanceof Hero.Doom) {
+			((Hero.Doom)cause).onDeath();
 		}
 		
 		Dungeon.deleteGame( this.heroClass, true );
@@ -1401,11 +1401,10 @@ public class Hero extends Char {
 		
 		for (int y = ay; y <= by; y++) {
 			for (int x = ax, p = ax + y * Level.WIDTH; x <= bx; x++, p++) {
-				
-				if (Dungeon.visible[p]) {
+				if (Dungeon.visible[p]) { // at this moment Dungeon.visible stores current hero visible
 					
 					if (intentional) {
-						getSprite().parent.addToBack( new CheckedCell( p ) );
+						CheckedCell.SendCheckedCell(p, this);
 					}
 					
 					if (Level.secret[p] && (intentional || Random.Float() < level)) {

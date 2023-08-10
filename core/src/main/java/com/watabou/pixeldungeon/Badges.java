@@ -168,7 +168,8 @@ public class Badges {
 	}
 	
 	private static HashSet<Badge> global;
-	private static HashSet<Badge> local = new HashSet<Badge>();
+
+	private static HashSet<Badge> local = new HashSet<Badges.Badge>();
 	
 	private static boolean saveNeeded = false;
 	

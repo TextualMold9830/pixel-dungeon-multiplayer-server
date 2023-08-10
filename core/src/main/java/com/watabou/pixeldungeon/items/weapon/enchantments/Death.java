@@ -31,7 +31,7 @@ public class Death extends Weapon.Enchantment {
 	private static final String TXT_GRIM	= "grim %s";
 	
 	private static Glowing BLACK = new Glowing( 0x000000 );
-	
+
 	@Override
 	public boolean proc( Weapon weapon, Char attacker, Char defender, int damage ) {
 		// lvl 0 - 8%

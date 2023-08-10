@@ -125,8 +125,8 @@ public enum Rankings {
 		if (records != null) {
 			return;
 		}
-		
-		records = new ArrayList<Record>();
+
+		records = new ArrayList<Rankings.Record>();
 		
 		try {
 			InputStream input = Game.instance.openFileInput( RANKINGS_FILE );
@@ -201,7 +201,7 @@ public enum Rankings {
 		}
 	}
 
-	private static final Comparator<Record> scoreComparator = new Comparator<Record>() {
+	private static final Comparator<Record> scoreComparator = new Comparator<Rankings.Record>() {
 		@Override
 		public int compare( Record lhs, Record rhs ) {
 			return (int)Math.signum( rhs.score - lhs.score );

@@ -22,26 +22,25 @@
 package com.watabou.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
-//I think everything works good now
-// Everything works. Now we need BitMap
-public class SparseArray<T> extends HashMap<Integer, T> {
+public class SparseArray<T> extends android.util.SparseArray<T> {
 
 	public int[] keyArray() {
-		Set<Integer> keySet = keySet();
-		int[] keys = new int[keySet.size()];
-		int i = 0;
-		for (Integer key : keySet){
-			keys[i] = key;
-			i++;
+		int size = size();
+		int[] array = new int[size];
+		for (int i=0; i < size; i++) {
+			array[i] = keyAt( i );
 		}
-		return  keys;
+		return array;
 	}
 	
 	public List<T> values() {
-		return new ArrayList<T>(super.values());
+		int size = size();
+		ArrayList<T> list = new ArrayList<T>( size );
+		for (int i=0; i < size; i++) {
+			list.add( i, valueAt( i ) );
+		}
+		return list;
 	}
 }

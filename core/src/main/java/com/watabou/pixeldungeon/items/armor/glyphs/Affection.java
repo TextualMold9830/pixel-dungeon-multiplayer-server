@@ -32,9 +32,9 @@ import com.watabou.utils.Random;
 public class Affection extends Glyph {
 
 	private static final String TXT_AFFECTION	= "%s of affection";
-	
-	private static Glowing PINK = new Glowing( 0xFF4488 );
-	
+
+	private static ItemSprite.Glowing PINK = new ItemSprite.Glowing( 0xFF4488 );
+
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage) {
 

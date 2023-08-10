@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon;
 
-
 import com.watabou.noosa.Game;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.Char;
@@ -681,6 +680,8 @@ public class Dungeon {
 		
 		resultDescription = desc;
 		Rankings.INSTANCE.submit( true );
+
+		//todo: send win. (Surface scene)
 	}
 	
 	public static void observeAll() {

@@ -17,10 +17,10 @@
  */
 package com.watabou.pixeldungeon;
 
-import java.util.ArrayList;
-
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
+
+import java.util.ArrayList;
 
 public class Journal {
 
@@ -82,7 +82,7 @@ public class Journal {
 	public static ArrayList<Record> records;
 	
 	public static void reset() {
-		records = new ArrayList<Record>();
+		records = new ArrayList<Journal.Record>();
 	}
 	
 	private static final String JOURNAL	= "journal";

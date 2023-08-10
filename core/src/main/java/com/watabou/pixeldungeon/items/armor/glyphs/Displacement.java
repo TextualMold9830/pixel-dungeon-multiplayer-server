@@ -31,9 +31,9 @@ import com.watabou.utils.Random;
 public class Displacement extends Glyph {
 
 	private static final String TXT_DISPLACEMENT	= "%s of displacement";
-	
+
 	private static Glowing BLUE = new Glowing( 0x66AAFF );
-	
+
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage ) {
 

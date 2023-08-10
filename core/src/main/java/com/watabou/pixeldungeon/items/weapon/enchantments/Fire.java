@@ -31,6 +31,7 @@ public class Fire extends Weapon.Enchantment {
 	private static final String TXT_BLAZING	= "blazing %s";
 	
 	private static Glowing ORANGE = new Glowing( 0xFF4400 );
+153d0798d53114817cdf7bcc97a191030fa7
 	
 	@Override
 	public boolean proc( Weapon weapon, Char attacker, Char defender, int damage ) {

@@ -31,7 +31,7 @@ import com.watabou.utils.Random;
 public class Stench extends Glyph {
 
 	private static final String TXT_STENCH	= "%s of stench";
-	
+
 	private static Glowing GREEN = new Glowing( 0x22CC44 );
 	
 	@Override

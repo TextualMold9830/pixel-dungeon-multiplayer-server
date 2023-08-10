@@ -17,7 +17,7 @@
  */
 package com.watabou.pixeldungeon.actors.blobs;
 
-import com.watabou.noosa.audio.Sample;
+import com.nikita22007.multiplayer.noosa.audio.Sample;
 import com.watabou.pixeldungeon.Assets;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.DungeonTilemap;
@@ -115,7 +115,7 @@ public class SacrificialFire extends Blob {
 					Journal.remove( Feature.SACRIFICIAL_FIRE );
 					
 					GLog.w( TXT_REWARD );
-					GameScene.effect( new Flare( 7, 32 ).color( 0x66FFFF, true ).show( ch.getSprite().parent, DungeonTilemap.tileCenterToWorld( fire.pos ), 2f ) );
+					new Flare( 7, 32 ).color( 0x66FFFF, true ).show( ch.getSprite().parent, DungeonTilemap.tileCenterToWorld( fire.pos ), 2f );
 					Dungeon.level.drop( new ScrollOfWipeOut(), fire.pos );
 				}
 			} else {

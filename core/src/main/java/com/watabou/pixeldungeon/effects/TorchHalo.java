@@ -53,7 +53,6 @@ public class TorchHalo extends Halo {
 		
 		point( target.x + target.width / 2, target.y + target.height / 2 );
 	}
-	
 
 	
 	public void putOut() {

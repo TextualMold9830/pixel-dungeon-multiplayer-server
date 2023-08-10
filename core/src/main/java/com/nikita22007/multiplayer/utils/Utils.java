@@ -1,6 +1,5 @@
 package com.nikita22007.multiplayer.utils;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 

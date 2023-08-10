@@ -126,7 +126,7 @@ public class SewerBossLevel extends RegularLevel {
 		if (candidates.size() > 0) {
 			Room kingsRoom = Random.element( candidates );
 			kingsRoom.connect( roomExit );
-			kingsRoom.type = Type.RAT_KING;
+			kingsRoom.type = Room.Type.RAT_KING;
 		}
 		
 		paint();
