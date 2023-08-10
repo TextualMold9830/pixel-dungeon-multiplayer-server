@@ -22,4 +22,6 @@ public class Settings {
     }
 
     public static MoveModeEnum moveMode = MoveModeEnum.WITH_MOVED;
+    private Settings(){}
+
 }
